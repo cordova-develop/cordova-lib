@@ -202,39 +202,39 @@ module.exports.uninstallPlugin = function (id, plugins_dir, options) {
         });
     });
 
-    var dependPluginIds = toDelete.filter( function(plugin_id) {
+    var dependPluginIds = toDelete.filter(function (plugin_id) {
         return dependList[plugin_id];
     });
-    var createMsg = function(plugin_id) {
+    var createMsg = function (plugin_id) {
         return '"' + plugin_id + '" is required by (' + dependList[plugin_id] + ')';
     };
-    var createMsg2 = function(plugin_id) {
+    var createMsg2 = function (plugin_id) {
         return createMsg(plugin_id) + ' and cannot be removed (hint: use -f or --force)';
-    }
+    };
     if (!options.force && dependPluginIds.includes(top_plugin_id)) {
-      var msg = createMsg2(top_plugin_id);
-      return Q.reject(new CordovaError(msg));
+        var msg = createMsg2(top_plugin_id);
+        return Q.reject(new CordovaError(msg));
     }
 
     // action emmiting events.
     if (options.force) {
-        dependPluginIds.forEach( function(plugin_id) {
+        dependPluginIds.forEach(function (plugin_id) {
             var msg = createMsg(plugin_id);
             events.emit('log', msg + ' but forcing removal.');
-          });
+        });
     } else {
-        dependPluginIds.forEach( function(plugin_id) {
+        dependPluginIds.forEach(function (plugin_id) {
             var msg = createMsg2(plugin_id);
             events.emit('warn', msg);
         });
     }
-    var deletePluginIds = options.force ? toDelete : toDelete.filter( function(plugin_id) { return ! dependList[plugin_id]; } );
-    var deleteExecList = deletePluginIds.map( function(plugin_id) {
-      return function () { return doDelete(plugin_id); };
+    var deletePluginIds = options.force ? toDelete : toDelete.filter(function (plugin_id) { return !dependList[plugin_id]; });
+    var deleteExecList = deletePluginIds.map(function (plugin_id) {
+        return function () { return doDelete(plugin_id); };
     });
-    return deleteExecList.reduce( function(acc, deleteExec) {
-      return acc.then( deleteExec );
-    }, Q() );
+    return deleteExecList.reduce(function (acc, deleteExec) {
+        return acc.then(deleteExec);
+    }, Q());
 
 };
 
