@@ -22,7 +22,7 @@ var shell = require('shelljs');
 var events = require('cordova-common').events;
 var ConfigParser = require('cordova-common').ConfigParser;
 var cordova = require('../src/cordova/cordova');
-var TIMEOUT = 30 * 1000;
+var TIMEOUT = 60 * 1000;
 var cordova_util = require('../src/cordova/util');
 var semver = require('semver');
 
