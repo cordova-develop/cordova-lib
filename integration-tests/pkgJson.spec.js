@@ -370,6 +370,7 @@ describe('platform end-to-end with --save', function () {
     var results;
 
     beforeEach(function () {
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 30 * 1000;
         shell.rm('-rf', tmpDir);
 
         // cp then mv because we need to copy everything, but that means it'll copy the whole directory.
@@ -679,7 +680,7 @@ describe('During add, if pkg.json has a platform/plugin spec, use that one.', fu
             expect(err).toBeUndefined();
         }).fin(done);
     // Cordova prepare needs extra wait time to complete.
-    }, 60000);
+    }, 120000);
 });
 
 // Test #021 : use basePkgJson16 as config.xml contains platform/spec and plugin/spec pkg.json does not.
