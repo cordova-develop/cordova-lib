@@ -52,7 +52,8 @@
     "rewire": "^4.0.1"
   },
   "scripts": {
-    "test": "npm run eslint && npm run unit-tests && npm run e2e-tests",
+    "test": "jasmine JASMINE_CONFIG_PATH=integration-tests/jasmine.json",
+    "test2": "npm run eslint && npm run unit-tests && npm run e2e-tests",
     "eslint": "eslint src spec integration-tests",
     "unit-tests": "jasmine JASMINE_CONFIG_PATH=spec/jasmine.json",
     "cover": "istanbul cover --root src --print detail jasmine JASMINE_CONFIG_PATH=spec/jasmine.json",
