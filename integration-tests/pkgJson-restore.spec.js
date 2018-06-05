@@ -499,7 +499,7 @@ describe('update pkg.json to include platforms in config.xml', function () {
             expect(configEngArray.indexOf(androidPlatform)).toBeGreaterThan(-1);
             expect(configEngArray.indexOf(browserPlatform)).toBeGreaterThan(-1);
             // Platform specs from config.xml have been added to pkg.json.
-            expect(pkgJson.dependencies['cordova-browser']).toEqual('^5.0.0');
+            expect(pkgJson.dependencies['cordova-browser']).toEqual('^5.0.3');
             expect(pkgJson.dependencies['cordova-android']).toEqual('7.0.0');
         }).fail(function (err) {
             expect(err).toBeUndefined();
