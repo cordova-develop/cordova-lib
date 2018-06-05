@@ -24,7 +24,7 @@ var prepare = require('../src/cordova/prepare');
 var cordova_util = require('../src/cordova/util');
 var cordovaPlugin = require('../src/cordova/plugin');
 // cordova = require('../src/cordova/cordova'),
-var TIMEOUT = 60 * 1000;
+var TIMEOUT = 120 * 1000;
 
 /** Testing will check if "cordova prepare" is restoring platforms and plugins as expected.
 *   Uses different basePkgJson files depending on testing expecations of what (platforms/plugins/variables)
@@ -36,8 +36,10 @@ describe('tests platform/spec restore with --save', function () {
     var tmpDir = helpers.tmpDir('platform_test_pkgjson2');
     var project = path.join(tmpDir, 'project');
     var results;
+    var listener = function (res) { results = res; };
 
     beforeEach(function () {
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 150 * 1000;
         shell.rm('-rf', project);
         // Copy then move because we need to copy everything, but that means it will copy the whole directory.
         // Using /* doesn't work because of hidden files.
@@ -45,10 +47,11 @@ describe('tests platform/spec restore with --save', function () {
         shell.mv(path.join(tmpDir, 'basePkgJson'), project);
         process.chdir(project);
         delete process.env.PWD;
-        events.on('results', function (res) { results = res; });
+        events.on('results', listener);
     });
 
     afterEach(function () {
+        events.removeListener('results', listener);
         cordova_util.requireNoCache(path.join(process.cwd(), 'package.json'));
         process.chdir(path.join(__dirname, '..')); // Needed to rm the dir on Windows.
         shell.rm('-rf', tmpDir);
@@ -274,6 +277,7 @@ describe('tests platform/spec restore with --save', function () {
     var tmpDir = helpers.tmpDir('platform_test_pkgjson2');
     var project = path.join(tmpDir, 'project');
     var results;
+    var listener = function (res) { results = res; };
 
     beforeEach(function () {
         shell.rm('-rf', tmpDir);
@@ -282,10 +286,11 @@ describe('tests platform/spec restore with --save', function () {
         shell.cp('-R', path.join(__dirname, '..', 'spec', 'cordova', 'fixtures', 'basePkgJson'), tmpDir);
         shell.mv(path.join(tmpDir, 'basePkgJson'), project);
         process.chdir(project);
-        events.on('results', function (res) { results = res; });
+        events.on('results', listener);
     });
 
     afterEach(function () {
+        events.removeListener('results', listener);
         cordova_util.requireNoCache(path.join(process.cwd(), 'package.json'));
         process.chdir(path.join(__dirname, '..')); // Needed to rm the dir on Windows.
         shell.rm('-rf', tmpDir);
@@ -358,6 +363,7 @@ describe('files should not be modified if their platforms are identical', functi
     var tmpDir = helpers.tmpDir('platform_test_pkgjson');
     var project = path.join(tmpDir, 'project');
     var results;
+    var listener = function (res) { results = res; };
 
     beforeEach(function () {
         shell.rm('-rf', tmpDir);
@@ -367,10 +373,11 @@ describe('files should not be modified if their platforms are identical', functi
         shell.cp('-R', path.join(__dirname, '..', 'spec', 'cordova', 'fixtures', 'basePkgJson6'), tmpDir);
         shell.mv(path.join(tmpDir, 'basePkgJson6'), project);
         process.chdir(project);
-        events.on('results', function (res) { results = res; });
+        events.on('results', listener);
     });
 
     afterEach(function () {
+        events.removeListener('results', listener);
         cordova_util.requireNoCache(path.join(process.cwd(), 'package.json'));
         process.chdir(path.join(__dirname, '..')); // Needed to rm the dir on Windows.
         shell.rm('-rf', tmpDir);
@@ -429,6 +436,7 @@ describe('update pkg.json to include platforms in config.xml', function () {
     var tmpDir = helpers.tmpDir('platform_test_pkgjson');
     var project = path.join(tmpDir, 'project');
     var results;
+    var listener = function (res) { results = res; };
 
     beforeEach(function () {
         shell.rm('-rf', tmpDir);
@@ -437,10 +445,11 @@ describe('update pkg.json to include platforms in config.xml', function () {
         shell.cp('-R', path.join(__dirname, '..', 'spec', 'cordova', 'fixtures', 'basePkgJson5'), tmpDir);
         shell.mv(path.join(tmpDir, 'basePkgJson5'), project);
         process.chdir(project);
-        events.on('results', function (res) { results = res; });
+        events.on('results', listener);
     });
 
     afterEach(function () {
+        events.removeListener('results', listener);
         cordova_util.requireNoCache(path.join(process.cwd(), 'package.json'));
         process.chdir(path.join(__dirname, '..')); // Needed to rm the dir on Windows.
         shell.rm('-rf', tmpDir);
@@ -513,6 +522,7 @@ describe('update empty package.json to match config.xml', function () {
     var tmpDir = helpers.tmpDir('platform_test_pkgjson');
     var project = path.join(tmpDir, 'project');
     var results;
+    var listener = function (res) { results = res; };
 
     beforeEach(function () {
         shell.rm('-rf', tmpDir);
@@ -521,10 +531,11 @@ describe('update empty package.json to match config.xml', function () {
         shell.cp('-R', path.join(__dirname, '..', 'spec', 'cordova', 'fixtures', 'basePkgJson3'), tmpDir);
         shell.mv(path.join(tmpDir, 'basePkgJson3'), project);
         process.chdir(project);
-        events.on('results', function (res) { results = res; });
+        events.on('results', listener);
     });
 
     afterEach(function () {
+        events.removeListener('results', listener);
         cordova_util.requireNoCache(path.join(process.cwd(), 'package.json'));
         process.chdir(path.join(__dirname, '..')); // Needed to rm the dir on Windows.
         shell.rm('-rf', tmpDir);
@@ -591,6 +602,7 @@ describe('update config.xml to include platforms in pkg.json', function () {
     var tmpDir = helpers.tmpDir('platform_test_pkgjson');
     var project = path.join(tmpDir, 'project');
     var results;
+    var listener = function (res) { results = res; };
 
     beforeEach(function () {
         shell.rm('-rf', tmpDir);
@@ -599,10 +611,11 @@ describe('update config.xml to include platforms in pkg.json', function () {
         shell.cp('-R', path.join(__dirname, '..', 'spec', 'cordova', 'fixtures', 'basePkgJson4'), tmpDir);
         shell.mv(path.join(tmpDir, 'basePkgJson4'), project);
         process.chdir(project);
-        events.on('results', function (res) { results = res; });
+        events.on('results', listener);
     });
 
     afterEach(function () {
+        events.removeListener('results', listener);
         cordova_util.requireNoCache(path.join(process.cwd(), 'package.json'));
         process.chdir(path.join(__dirname, '..')); // Needed to rm the dir on Windows.
         shell.rm('-rf', tmpDir);
@@ -679,6 +692,7 @@ describe('update config.xml to use the variable found in pkg.json', function () 
     var tmpDir = helpers.tmpDir('platform_test_pkgjson');
     var project = path.join(tmpDir, 'project');
     var results;
+    var listener = function (res) { results = res; };
 
     beforeEach(function () {
         shell.rm('-rf', tmpDir);
@@ -687,10 +701,11 @@ describe('update config.xml to use the variable found in pkg.json', function () 
         shell.cp('-R', path.join(__dirname, '..', 'spec', 'cordova', 'fixtures', 'basePkgJson8'), tmpDir);
         shell.mv(path.join(tmpDir, 'basePkgJson8'), project);
         process.chdir(project);
-        events.on('results', function (res) { results = res; });
+        events.on('results', listener);
     });
 
     afterEach(function () {
+        events.removeListener('results', listener);
         cordova_util.requireNoCache(path.join(process.cwd(), 'package.json'));
         process.chdir(path.join(__dirname, '..')); // Needed to rm the dir on Windows.
         shell.rm('-rf', tmpDir);
@@ -761,6 +776,7 @@ describe('update pkg.json to include plugin and variable found in config.xml', f
     var tmpDir = helpers.tmpDir('platform_test_pkgjson');
     var project = path.join(tmpDir, 'project');
     var results;
+    var listener = function (res) { results = res; };
 
     beforeEach(function () {
         shell.rm('-rf', tmpDir);
@@ -769,10 +785,11 @@ describe('update pkg.json to include plugin and variable found in config.xml', f
         shell.cp('-R', path.join(__dirname, '..', 'spec', 'cordova', 'fixtures', 'basePkgJson9'), tmpDir);
         shell.mv(path.join(tmpDir, 'basePkgJson9'), project);
         process.chdir(project);
-        events.on('results', function (res) { results = res; });
+        events.on('results', listener);
     });
 
     afterEach(function () {
+        events.removeListener('results', listener);
         cordova_util.requireNoCache(path.join(process.cwd(), 'package.json'));
         process.chdir(path.join(__dirname, '..')); // Needed to rm the dir on Windows.
         shell.rm('-rf', tmpDir);
@@ -847,6 +864,7 @@ describe('update pkg.json AND config.xml to include all plugins and merge unique
     var tmpDir = helpers.tmpDir('plugin_test_pkgjson');
     var project = path.join(tmpDir, 'project');
     var results;
+    var listener = function (res) { results = res; };
 
     beforeEach(function () {
         shell.rm('-rf', tmpDir);
@@ -855,10 +873,11 @@ describe('update pkg.json AND config.xml to include all plugins and merge unique
         shell.cp('-R', path.join(__dirname, '..', 'spec', 'cordova', 'fixtures', 'basePkgJson10'), tmpDir);
         shell.mv(path.join(tmpDir, 'basePkgJson10'), project);
         process.chdir(project);
-        events.on('results', function (res) { results = res; });
+        events.on('results', listener);
     });
 
     afterEach(function () {
+        events.removeListener('results', listener);
         cordova_util.requireNoCache(path.join(process.cwd(), 'package.json'));
         process.chdir(path.join(__dirname, '..')); // Needed to rm the dir on Windows.
         shell.rm('-rf', tmpDir);
@@ -970,6 +989,7 @@ describe('update pkg.json AND config.xml to include all plugins/merge variables 
     var tmpDir = helpers.tmpDir('platform_test_pkgjson');
     var project = path.join(tmpDir, 'project');
     var results;
+    var listener = function (res) { results = res; };
 
     beforeEach(function () {
         shell.rm('-rf', tmpDir);
@@ -978,10 +998,11 @@ describe('update pkg.json AND config.xml to include all plugins/merge variables 
         shell.cp('-R', path.join(__dirname, '..', 'spec', 'cordova', 'fixtures', 'basePkgJson11'), tmpDir);
         shell.mv(path.join(tmpDir, 'basePkgJson11'), project);
         process.chdir(project);
-        events.on('results', function (res) { results = res; });
+        events.on('results', listener);
     });
 
     afterEach(function () {
+        events.removeListener('results', listener);
         cordova_util.requireNoCache(path.join(process.cwd(), 'package.json'));
         process.chdir(path.join(__dirname, '..')); // Needed to rm the dir on Windows.
         shell.rm('-rf', tmpDir);
@@ -1113,6 +1134,7 @@ describe('update config.xml to include the plugin that is in pkg.json', function
     var tmpDir = helpers.tmpDir('platform_test_pkgjson');
     var project = path.join(tmpDir, 'project');
     var results;
+    var listener = function (res) { results = res; };
 
     beforeEach(function () {
         shell.rm('-rf', tmpDir);
@@ -1121,10 +1143,11 @@ describe('update config.xml to include the plugin that is in pkg.json', function
         shell.cp('-R', path.join(__dirname, '..', 'spec', 'cordova', 'fixtures', 'basePkgJson12'), tmpDir);
         shell.mv(path.join(tmpDir, 'basePkgJson12'), project);
         process.chdir(project);
-        events.on('results', function (res) { results = res; });
+        events.on('results', listener);
     });
 
     afterEach(function () {
+        events.removeListener('results', listener);
         cordova_util.requireNoCache(path.join(process.cwd(), 'package.json'));
         process.chdir(path.join(__dirname, '..')); // Needed to rm the dir on Windows.
         shell.rm('-rf', tmpDir);
@@ -1212,6 +1235,7 @@ describe('platforms and plugins should be restored with config.xml even without 
     var tmpDir = helpers.tmpDir('platform_test_pkgjson');
     var project = path.join(tmpDir, 'project');
     var results;
+    var listener = function (res) { results = res; };
 
     beforeEach(function () {
         shell.rm('-rf', tmpDir);
@@ -1221,10 +1245,11 @@ describe('platforms and plugins should be restored with config.xml even without 
         shell.cp('-R', path.join(__dirname, '..', 'spec', 'cordova', 'fixtures', 'basePkgJson13'), tmpDir);
         shell.mv(path.join(tmpDir, 'basePkgJson13'), project);
         process.chdir(project);
-        events.on('results', function (res) { results = res; });
+        events.on('results', listener);
     });
 
     afterEach(function () {
+        events.removeListener('results', listener);
         process.chdir(path.join(__dirname, '..')); // Needed to rm the dir on Windows.
         shell.rm('-rf', tmpDir);
     });
@@ -1345,6 +1370,7 @@ describe('tests platform/spec restore with --save', function () {
     var tmpDir = helpers.tmpDir('platform_test_pkgjson2');
     var project = path.join(tmpDir, 'project');
     var results;
+    var listener = function (res) { results = res; };
 
     beforeEach(function () {
         shell.rm('-rf', tmpDir);
@@ -1353,10 +1379,11 @@ describe('tests platform/spec restore with --save', function () {
         shell.cp('-R', path.join(__dirname, '..', 'spec', 'cordova', 'fixtures', 'basePkgJson'), tmpDir);
         shell.mv(path.join(tmpDir, 'basePkgJson'), project);
         process.chdir(project);
-        events.on('results', function (res) { results = res; });
+        events.on('results', listener);
     });
 
     afterEach(function () {
+        events.removeListener('results', listener);
         cordova_util.requireNoCache(path.join(process.cwd(), 'package.json'));
         process.chdir(path.join(__dirname, '..')); // Needed to rm the dir on Windows.
         shell.rm('-rf', tmpDir);
