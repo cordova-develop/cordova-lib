@@ -637,7 +637,7 @@ describe('During add, if pkg.json has a platform/plugin spec, use that one.', fu
 
         // Pkg.json has ios and spec '^4.2.1' and splashscreen '^3.2.2'.
         expect(pkgJson.cordova.platforms).toEqual([ iosPlatform ]);
-        expect(pkgJson.dependencies).toEqual({ 'cordova-plugin-splashscreen': '^3.2.2', 'cordova-ios': '^4.2.1' });
+        expect(pkgJson.dependencies).toEqual({ 'cordova-plugin-splashscreen': '^3.2.2', 'cordova-ios': '^4.5.4' });
         // Config.xml has no platforms or plugins yet.
         expect(engines.length).toEqual(0);
         expect(configPlugins.length).toEqual(0);
