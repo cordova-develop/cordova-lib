@@ -531,6 +531,9 @@ describe('HooksRunner', function () {
         describe('module-level hooks (event handlers)', function () {
             var handler = jasmine.createSpy().and.returnValue(Q());
             var test_event = 'before_build';
+            beforeEach(function () {
+              jasmine.DEFAULT_TIMEOUT_INTERVAL = 20 * 1000;
+            });
 
             afterEach(function () {
                 cordova.removeAllListeners(test_event);
