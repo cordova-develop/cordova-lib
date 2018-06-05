@@ -280,6 +280,7 @@ describe('tests platform/spec restore with --save', function () {
     var listener = function (res) { results = res; };
 
     beforeEach(function () {
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 150 * 1000;
         shell.rm('-rf', tmpDir);
         // Copy then move because we need to copy everything, but that means it will copy the whole directory.
         // Using /* doesn't work because of hidden files.
@@ -1373,6 +1374,7 @@ describe('tests platform/spec restore with --save', function () {
     var listener = function (res) { results = res; };
 
     beforeEach(function () {
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 150 * 1000;
         shell.rm('-rf', tmpDir);
         // Copy then move because we need to copy everything, but that means it will copy the whole directory.
         // Using /* doesn't work because of hidden files.
