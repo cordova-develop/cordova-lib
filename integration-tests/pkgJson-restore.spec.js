@@ -639,7 +639,7 @@ describe('update config.xml to include platforms in pkg.json', function () {
         expect(configEngArray.indexOf('browser')).toEqual(-1);
         expect(configEngArray.length === 1);
         // Pkg.json has cordova-browser in its dependencies.
-        expect(pkgJson.dependencies).toEqual({ 'cordova-ios': '^4.5.4', 'cordova-browser': '^5.0.0' });
+        expect(pkgJson.dependencies).toEqual({ 'cordova-ios': '^4.5.4', 'cordova-browser': '^5.0.3' });
         emptyPlatformList().then(function () {
             // Run cordova prepare.
             return prepare({ 'fetch': true });
@@ -659,11 +659,11 @@ describe('update config.xml to include platforms in pkg.json', function () {
             // Expect config.xml array to have 2 elements (platforms).
             expect(configEngArray.length === 2);
             // Check to make sure that 'browser' spec was added properly.
-            expect(engines).toEqual([ { name: 'ios', spec: '^4.5.4' }, { name: 'browser', spec: '^5.0.0' } ]);
+            expect(engines).toEqual([ { name: 'ios', spec: '^4.5.4' }, { name: 'browser', spec: '^5.0.3' } ]);
             // No change to pkg.json dependencies.
-            expect(pkgJson.dependencies).toEqual({ 'cordova-ios': '^4.5.4', 'cordova-browser': '^5.0.0' });
+            expect(pkgJson.dependencies).toEqual({ 'cordova-ios': '^4.5.4', 'cordova-browser': '^5.0.3' });
             expect(pkgJson.dependencies['cordova-ios']).toEqual('^4.5.4');
-            expect(pkgJson.dependencies['cordova-browser']).toEqual('^5.0.0');
+            expect(pkgJson.dependencies['cordova-browser']).toEqual('^5.0.3');
         }).fail(function (err) {
             expect(err).toBeUndefined();
         }).fin(done);
