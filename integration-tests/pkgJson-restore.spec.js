@@ -24,7 +24,7 @@ var prepare = require('../src/cordova/prepare');
 var cordova_util = require('../src/cordova/util');
 var cordovaPlugin = require('../src/cordova/plugin');
 // cordova = require('../src/cordova/cordova'),
-var TIMEOUT = 120 * 1000;
+var TIMEOUT = 240 * 1000;
 
 /** Testing will check if "cordova prepare" is restoring platforms and plugins as expected.
 *   Uses different basePkgJson files depending on testing expecations of what (platforms/plugins/variables)
@@ -39,7 +39,7 @@ describe('tests platform/spec restore with --save', function () {
     var listener = function (res) { results = res; };
 
     beforeEach(function () {
-        jasmine.DEFAULT_TIMEOUT_INTERVAL = 150 * 1000;
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 300 * 1000;
         shell.rm('-rf', project);
         // Copy then move because we need to copy everything, but that means it will copy the whole directory.
         // Using /* doesn't work because of hidden files.
