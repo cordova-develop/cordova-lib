@@ -532,7 +532,7 @@ describe('HooksRunner', function () {
             var handler = jasmine.createSpy().and.returnValue(Q());
             var test_event = 'before_build';
             beforeEach(function () {
-              jasmine.DEFAULT_TIMEOUT_INTERVAL = 20 * 1000;
+                jasmine.DEFAULT_TIMEOUT_INTERVAL = 20 * 1000;
             });
 
             afterEach(function () {
